@@ -1,0 +1,127 @@
+﻿<Window x:Class="UI_Design.AddStudent"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI_Design"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Height="700" Width="700">
+    <Window.Resources>
+        <Style x:Key="Titletext" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="45" />
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Margin" Value="15"/>
+            <Setter Property="FontWeight" Value="Black"/>
+        </Style>
+
+        <Style x:Key="Filltext" TargetType="TextBox">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FFBEBDBD"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#FF4A4F51"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CaretBrush" Value="#FF4A4F51"/>
+            <Setter Property="SelectionBrush" Value="#FFBEBDBD"/>
+        </Style>
+
+        <Style x:Key="FuncButton" TargetType="Button">
+            <Setter Property="Background" Value="#FFC80862"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <local:AddStudentVM/>
+    </Window.DataContext>
+
+    <Grid Margin="0,0,0,92">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="White" Margin="10">
+            <Image Source="/UI_Design;component/Images/wing.png" Stretch="UniformToFill"/>
+        </Grid>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" Background="Transparent" Margin="0,0,0,-93" Grid.RowSpan="2">
+            <TextBlock Margin="15" TextAlignment="Center" Text="User Details" HorizontalAlignment="Center" Width="300" Style="{StaticResource Titletext}"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="First Name" FontWeight="Bold"  Margin="15" Width="106" FontSize="20" FontFamily="Poppins" />
+                <TextBox Text="{Binding Firstname, UpdateSourceTrigger=PropertyChanged}" Height="43" Width="150" 
+                         Style="{StaticResource Filltext}"/>
+                <TextBlock Text="Last Name" FontWeight="Bold" Margin="15" Width="124"  FontSize="20"  />
+                <TextBox Text="{Binding Lastname, UpdateSourceTrigger=PropertyChanged}" Margin="15" Height="43" Width="161" 
+                         Style="{StaticResource Filltext}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="67">
+                <TextBlock Text="Age" FontWeight="Bold" Margin="15 5 0 0" Width="75" Height="36" FontSize="20"/>
+                <TextBox Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}" Margin="15 0 115 0" Width="68" Height="35" 
+                         Style="{StaticResource Filltext}"/>
+                <TextBlock Text="Date of Birth" FontWeight="Bold" Margin="0" Width="129" Height="34" FontSize="20"/>
+                <TextBox Text="{Binding Dateofbirth, UpdateSourceTrigger=PropertyChanged}" Margin="15" Width="199" Height="39"
+                         Style="{StaticResource Filltext}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="68">
+                <TextBlock Text="GPA" FontWeight="Bold" Margin="15 5 0 0" Width="75" Height="32" FontSize="20"/>
+                <TextBox Text="{Binding Gpa, UpdateSourceTrigger=PropertyChanged}" Margin="15" 
+                         Width="71" Height="36" Style="{StaticResource Filltext}" RenderTransformOrigin="0.525,0.201" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="75">
+                <TextBlock Text="Profile Image" FontWeight="Bold" FontSize="20" Margin="15 5 0 0" Width="128" Height="38"/>
+                <Button Content="Upload" FontWeight="Bold" Background="White" Width="130" Margin="10" Height="44"
+                        Command="{Binding UploadPhotoCommand}" BorderBrush="#FF139587">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,20">
+            <Border CornerRadius="30" Background="White" Height="97" Width="422">
+                <Button Content="SAVE" Style="{StaticResource FuncButton}" Command="{Binding SaveCommand}" Foreground="Black" Background="LightBlue" Margin="20,10,21,10" FontWeight="Bold" FontSize="30">
+                    <Button.Effect>
+                        <DropShadowEffect Color="#FFBEBDBD" ShadowDepth="2"/>
+                    </Button.Effect>
+                </Button>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>
